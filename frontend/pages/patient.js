@@ -19,7 +19,7 @@ import { useToast } from '../contexts/ToastContext'
 
 export default function PatientPage() {
   const { account, connectWallet, isSepoliaNetwork } = useWallet()
-  const { submitPatientData, getPatientSubmissions, loading } = useContract()
+  const { submitPatientData, getPatientSubmissions, loading, fhevmReady, ipfsReady } = useContract()
   const { showToast } = useToast()
 
   const [formData, setFormData] = useState({
@@ -87,25 +87,11 @@ export default function PatientPage() {
     setIsSubmitting(true)
     
     try {
-      // 模拟上传到 IPFS
-      const ipfsData = {
-        bloodGlucose: formData.bloodGlucose,
-        timestamp: formData.timestamp,
-        notes: formData.notes,
-        patient: account,
-        uploadTime: new Date().toISOString()
-      }
-      
-      // 生成模拟的 IPFS CID
-      const mockCid = `Qm${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`
-      
-      showToast('正在上传数据到 IPFS...', 'info')
-      
-      // 提交到区块链
+      // 使用真正的 FHEVM 加密和 IPFS 上传
       const result = await submitPatientData(
         formData.bloodGlucose,
-        mockCid,
-        "2345-7" // LOINC 代码
+        formData.timestamp,
+        formData.notes
       )
       
       if (result) {
@@ -260,6 +246,20 @@ export default function PatientPage() {
                     <p className="text-sm text-blue-700">
                       您的数据将使用 FHEVM 同态加密技术进行加密，确保在整个分析过程中数据始终保持加密状态，完全保护您的隐私。
                     </p>
+                    <div className="mt-2 flex items-center space-x-4 text-xs">
+                      <div className="flex items-center space-x-1">
+                        <div className={`w-2 h-2 rounded-full ${fhevmReady ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                        <span className={fhevmReady ? 'text-green-700' : 'text-yellow-700'}>
+                          FHEVM {fhevmReady ? '已连接' : '模拟模式'}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <div className={`w-2 h-2 rounded-full ${ipfsReady ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                        <span className={ipfsReady ? 'text-green-700' : 'text-yellow-700'}>
+                          IPFS {ipfsReady ? '已连接' : '模拟模式'}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

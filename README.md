@@ -1,310 +1,222 @@
-# 糖尿病匿名统计分析平台
+# Diabetes Analytics DApp
 
-基于 **FHEVM + IPFS + Sepolia** 测试链的去中心化糖尿病患者匿名数据统计分析 DApp。
+基于 FHEVM 同态加密和 IPFS 去中心化存储的糖尿病患者匿名统计分析平台。
 
-## 🎯 项目概述
+## 🌟 主要特性
 
-本项目为糖尿病患者和医学研究员提供了一个完全隐私保护的数据分析平台：
-
-- **患者端**：安全上传加密的血糖数据
-- **研究员端**：运行统计分析并查看可视化结果
-- **隐私保护**：所有数据使用 FHEVM 同态加密技术处理
-- **去中心化存储**：原始数据存储在 IPFS，链上仅保存 CID 和加密结果
+- **隐私保护**: 使用 FHEVM 同态加密技术，数据在整个分析过程中始终保持加密状态
+- **去中心化存储**: 患者数据通过 IPFS 网络进行去中心化存储
+- **匿名统计**: 支持对加密数据进行聚合分析，无需解密原始数据
+- **区块链透明**: 基于以太坊 Sepolia 测试网，所有操作公开透明
+- **用户友好**: 现代化的 Web3 界面，支持 MetaMask 等钱包
 
 ## 🏗️ 技术架构
 
-### 核心技术栈
+### 前端技术栈
+- **Next.js 14**: React 框架
+- **Tailwind CSS**: 样式框架
+- **Framer Motion**: 动画库
+- **Ethers.js**: 以太坊交互
+- **FHEVMJS**: 同态加密客户端
+- **IPFS HTTP Client**: IPFS 交互
 
-- **前端框架**：Next.js 14 + React 18 + TypeScript
-- **UI 组件**：TailwindCSS + Shadcn/UI
-- **动效库**：Framer Motion
-- **数据可视化**：Recharts
-- **区块链交互**：ethers.js v6 + MetaMask
-- **智能合约**：Solidity + FHEVM (@fhevm/solidity)
-- **去中心化存储**：IPFS (Filebase 网关)
-- **测试网络**：Sepolia Testnet
+### 区块链技术栈
+- **Solidity**: 智能合约语言
+- **FHEVM**: 同态加密虚拟机
+- **Hardhat**: 开发框架
+- **Sepolia**: 以太坊测试网
 
-### 系统架构图
-
-```
-┌─────────────────┐    ┌─────────────────┐
-│   患者端 UI     │    │  研究员端 UI    │
-│  (React/Next)   │    │  (React/Next)   │
-└─────────┬───────┘    └─────────┬───────┘
-          │                      │
-          ├──────────────────────┤
-          │                      │
-┌─────────▼──────────────────────▼───────┐
-│         Web3 交互层 (ethers.js)        │
-└─────────┬──────────────────────┬───────┘
-          │                      │
-┌─────────▼───────┐    ┌─────────▼───────┐
-│  FHEVM 合约     │    │  IPFS 存储      │
-│ (Sepolia 链)    │    │  (Filebase)     │
-└─────────────────┘    └─────────────────┘
-```
+### 存储技术栈
+- **IPFS**: 去中心化文件系统
+- **Infura IPFS**: 托管 IPFS 服务
+- **Pinata**: IPFS 固定服务
 
 ## 🚀 快速开始
 
 ### 环境要求
 
-- Node.js 18+
+- Node.js 16+
 - npm 或 yarn
 - MetaMask 钱包
 - Sepolia 测试网 ETH
 
-### 1. 克隆项目
+### 安装步骤
 
+1. **克隆项目**
 ```bash
-git clone <repository-url>
-cd diabetes-fhe-dapp
+git clone https://github.com/fricksdownert/xtc.git
+cd xtc
 ```
 
-### 2. 安装依赖
+2. **自动安装**
+```bash
+node scripts/install.js
+```
+
+或手动安装：
 
 ```bash
-# 安装合约依赖
+# 安装根目录依赖
 npm install
 
 # 安装前端依赖
-cd frontend
-npm install
+cd frontend && npm install && cd ..
+
+# 编译合约
+npm run compile
 ```
 
-### 3. 环境配置
-
-#### 后端配置
-
-复制并配置环境变量：
-
+3. **配置环境变量**
 ```bash
 cp .env.example .env
 ```
 
 编辑 `.env` 文件：
-
 ```env
-# 区块链配置
-SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
-PRIVATE_KEY=your_private_key_here
+# 合约地址（部署后填入）
+NEXT_PUBLIC_CONTRACT_ADDRESS=0x...
+
+# FHEVM 配置
+NEXT_PUBLIC_FHEVM_GATEWAY_URL=https://gateway.sepolia.zama.ai
+NEXT_PUBLIC_ENABLE_REAL_ENCRYPTION=false
 
 # IPFS 配置
-FILEBASE_API_KEY=your_filebase_api_key
-FILEBASE_SECRET_KEY=your_filebase_secret_key
-FILEBASE_BUCKET=diabetes-data-bucket
+NEXT_PUBLIC_ENABLE_REAL_IPFS=false
+NEXT_PUBLIC_INFURA_PROJECT_ID=your_infura_project_id
+NEXT_PUBLIC_INFURA_PROJECT_SECRET=your_infura_project_secret
 ```
 
-#### 前端配置
-
+4. **部署合约**（可选）
 ```bash
-cd frontend
-cp .env.local.example .env.local
-```
-
-编辑 `frontend/.env.local`：
-
-```env
-NEXT_PUBLIC_CONTRACT_ADDRESS=部署后的合约地址
-NEXT_PUBLIC_SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
-NEXT_PUBLIC_FILEBASE_GATEWAY=https://ipfs.filebase.io/ipfs/
-```
-
-### 4. 部署智能合约
-
-```bash
-# 编译合约
-npm run compile
-
-# 部署到 Sepolia 测试网
 npm run deploy
 ```
 
-部署成功后，将合约地址更新到前端环境变量中。
-
-### 5. 启动前端应用
-
+5. **启动开发服务器**
 ```bash
-cd frontend
 npm run dev
 ```
 
-访问 http://localhost:3000 查看应用。
+访问 http://localhost:3000
 
-## 📱 功能特性
+## 📱 使用指南
 
-### 患者端功能
+### 患者端操作
 
-- **连接钱包**：支持 MetaMask 钱包连接
-- **数据上传**：
-  - 输入血糖值 (20-600 mg/dL)
-  - 选择测量时间
-  - 添加备注信息
-  - 自动 FHE 加密处理
-- **提交历史**：查看已提交的数据记录
-- **隐私保护**：所有数据完全加密，无法被第三方读取
+1. **连接钱包**: 点击"连接钱包"按钮，连接 MetaMask
+2. **切换网络**: 确保连接到 Sepolia 测试网
+3. **上传数据**: 
+   - 输入血糖值（20-600 mg/dL）
+   - 选择测量时间
+   - 添加备注（可选）
+   - 点击"加密并上传数据"
 
-### 研究员端功能
+### 研究员端操作
 
-- **授权验证**：仅授权研究员可运行分析
-- **分析类型**：
-  - 平均值分析：计算血糖平均值和标准差
-  - 分布统计：分析血糖值分布情况
-  - 趋势分析：时间序列趋势分析
-- **数据可视化**：
-  - 柱状图、饼图、折线图
-  - 交互式图表展示
-  - 分析洞察和建议
-- **分析历史**：查看历史分析记录
+1. **获取授权**: 联系管理员获得研究员权限
+2. **请求分析**: 
+   - 选择分析类型（平均值/分布/趋势）
+   - 支付分析费用
+   - 等待分析完成
+3. **查看结果**: 通过 IPFS CID 获取分析结果
 
-### 核心安全特性
+## 🔐 隐私保护机制
 
-- **同态加密**：使用 FHEVM 技术，数据在计算过程中始终加密
-- **去中心化存储**：原始数据存储在 IPFS，确保数据不可篡改
-- **链上验证**：所有操作在区块链上可验证和追溯
-- **权限控制**：研究员需要授权才能运行分析
+### FHEVM 同态加密
 
-## 🔧 开发指南
+- **客户端加密**: 血糖数据在客户端使用 FHEVM 进行加密
+- **链上计算**: 智能合约直接对加密数据进行统计计算
+- **结果解密**: 只有授权研究员可以解密聚合结果
 
-### 项目结构
+### IPFS 去中心化存储
 
-```
-diabetes-fhe-dapp/
-├── contracts/                 # 智能合约
-│   └── DiabetesAnalytics.sol
-├── scripts/                   # 部署脚本
-│   └── deploy.js
-├── test/                      # 合约测试
-│   └── DiabetesAnalytics.test.js
-├── frontend/                  # 前端应用
-│   ├── components/           # React 组件
-│   ├── contexts/             # Context 提供者
-│   ├── pages/                # 页面组件
-│   ├── styles/               # 样式文件
-│   └── utils/                # 工具函数
-├── hardhat.config.js         # Hardhat 配置
-└── package.json
-```
+- **数据分散**: 原始数据存储在 IPFS 网络的多个节点
+- **内容寻址**: 使用加密哈希作为数据地址
+- **访问控制**: 只有数据所有者和授权方可以访问
 
-### 智能合约接口
+## 🛠️ 开发模式
 
-#### 主要函数
+项目支持两种运行模式：
 
-```solidity
-// 患者提交数据
-function submitPatientData(
-    einput encryptedGlucose,
-    bytes calldata inputProof,
-    string calldata ipfsCid,
-    string calldata loincCode
-) external
+### 模拟模式（默认）
+- 使用模拟的 FHEVM 加密
+- 使用模拟的 IPFS 上传
+- 适合开发和测试
 
-// 研究员请求分析
-function requestAnalysis(uint8 analysisType) external payable
+### 生产模式
+- 连接真实的 FHEVM 网关
+- 连接真实的 IPFS 网络
+- 需要配置相应的服务端点
 
-// 获取统计信息
-function getStats() external view returns (uint256, uint256, uint256)
+切换到生产模式：
+```env
+NEXT_PUBLIC_ENABLE_REAL_ENCRYPTION=true
+NEXT_PUBLIC_ENABLE_REAL_IPFS=true
 ```
 
-#### 事件
+## 📊 智能合约功能
 
-```solidity
-event DataSubmitted(address indexed patient, string ipfsCid, uint256 timestamp);
-event AnalysisRequested(address indexed researcher, uint256 requestId);
-event AnalysisCompleted(uint256 indexed requestId, string resultCid);
+### 患者功能
+- `submitPatientData()`: 提交加密的血糖数据
+- `getPatientSubmissions()`: 查看个人提交记录
+
+### 研究员功能
+- `requestAnalysis()`: 请求数据分析
+- `getAnalysisRequest()`: 查看分析请求状态
+
+### 管理员功能
+- `authorizeResearcher()`: 授权研究员
+- `updateAnalysisFee()`: 更新分析费用
+
+## 🔧 配置说明
+
+### FHEVM 配置
+```javascript
+export const FHEVM_CONFIG = {
+  chainId: 11155111, // Sepolia
+  gatewayUrl: 'https://gateway.sepolia.zama.ai',
+  enableRealEncryption: false // 开发模式
+}
 ```
 
-### 前端组件说明
-
-- **Layout.js**：应用布局和导航
-- **WalletContext.js**：钱包连接和状态管理
-- **ContractContext.js**：智能合约交互
-- **ToastContext.js**：消息提示系统
-- **AnalyticsChart.js**：数据可视化组件
+### IPFS 配置
+```javascript
+export const IPFS_CONFIG = {
+  local: {
+    host: 'localhost',
+    port: 5001,
+    protocol: 'http'
+  },
+  infura: {
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https'
+  }
+}
+```
 
 ## 🧪 测试
 
-### 运行合约测试
-
 ```bash
+# 运行合约测试
 npm test
+
+# 运行前端测试
+cd frontend && npm test
 ```
 
-### 测试覆盖的功能
+## 📦 部署
 
-- 合约部署和初始化
-- 患者数据提交
-- 研究员授权和分析请求
-- 事件触发和数据验证
-
-## 🌐 部署
-
-### Sepolia 测试网部署
-
-1. 获取 Sepolia 测试网 ETH：
-   - 访问 [Sepolia Faucet](https://sepoliafaucet.com/)
-   - 获取测试 ETH
-
-2. 配置 Infura 或 Alchemy：
-   - 注册并获取 API Key
-   - 更新 `SEPOLIA_RPC_URL`
-
-3. 部署合约：
-   ```bash
-   npm run deploy
-   ```
-
-4. 验证合约（可选）：
-   ```bash
-   npx hardhat verify --network sepolia <CONTRACT_ADDRESS>
-   ```
+### 合约部署
+```bash
+npm run deploy
+```
 
 ### 前端部署
-
-推荐使用 Vercel 部署：
-
 ```bash
 cd frontend
 npm run build
+npm start
 ```
-
-或使用 Vercel CLI：
-
-```bash
-vercel --prod
-```
-
-## 📊 使用示例
-
-### 患者上传数据
-
-1. 连接 MetaMask 钱包
-2. 切换到 Sepolia 测试网
-3. 输入血糖值和测量时间
-4. 点击"加密并上传数据"
-5. 确认交易并等待上链
-
-### 研究员运行分析
-
-1. 连接已授权的研究员钱包
-2. 选择分析类型（平均值/分布/趋势）
-3. 支付分析费用并提交请求
-4. 等待分析完成并查看结果
-
-## 🔐 隐私和安全
-
-### 数据保护机制
-
-1. **客户端加密**：数据在上传前使用 FHEVM 加密
-2. **同态计算**：分析过程中数据始终保持加密状态
-3. **去中心化存储**：原始数据存储在 IPFS，无中心化风险
-4. **链上验证**：所有操作可在区块链上验证
-
-### 安全最佳实践
-
-- 定期更新依赖包
-- 使用硬件钱包存储私钥
-- 在主网部署前进行充分测试
-- 实施多重签名管理
 
 ## 🤝 贡献指南
 
@@ -312,43 +224,36 @@ vercel --prod
 2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
 3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
+5. 打开 Pull Request
 
 ## 📄 许可证
 
 本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
 
-## 🆘 故障排除
+## 🔗 相关链接
 
-### 常见问题
+- [FHEVM 文档](https://docs.zama.ai/fhevm)
+- [IPFS 文档](https://docs.ipfs.tech/)
+- [Hardhat 文档](https://hardhat.org/docs)
+- [Next.js 文档](https://nextjs.org/docs)
 
-**Q: MetaMask 连接失败**
-A: 确保已安装 MetaMask 并切换到 Sepolia 测试网
+## ⚠️ 免责声明
 
-**Q: 合约交互失败**
-A: 检查合约地址是否正确，账户是否有足够的 ETH
+本项目仅用于教育和研究目的。在生产环境中使用前，请确保：
 
-**Q: IPFS 上传失败**
-A: 检查 Filebase 配置，或使用模拟模式进行测试
+1. 充分测试所有功能
+2. 进行安全审计
+3. 遵守相关法律法规
+4. 获得必要的医疗数据处理许可
 
-**Q: 分析结果不显示**
-A: 确保有足够的患者数据，且研究员账户已授权
+## 📞 支持
 
-### 获取帮助
+如有问题或建议，请：
 
-- 查看 [Issues](../../issues) 页面
-- 阅读 [Wiki](../../wiki) 文档
-- 联系项目维护者
-
-## 🔮 未来规划
-
-- [ ] 支持更多分析算法
-- [ ] 集成更多 IPFS 网关
-- [ ] 添加移动端支持
-- [ ] 实现数据市场功能
-- [ ] 支持多种加密货币支付
-- [ ] 添加 DAO 治理机制
+1. 查看 [Issues](https://github.com/fricksdownert/xtc/issues)
+2. 创建新的 Issue
+3. 联系项目维护者
 
 ---
 
-**免责声明**：本项目仅用于教育和研究目的。在处理真实医疗数据时，请确保遵守相关法律法规和隐私保护要求。
+**注意**: 这是一个演示项目，展示了如何结合 FHEVM 同态加密和 IPFS 去中心化存储来构建隐私保护的医疗数据分析平台。
