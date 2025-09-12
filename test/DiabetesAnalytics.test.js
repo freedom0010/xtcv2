@@ -66,6 +66,19 @@ describe("DiabetesAnalytics", function () {
   describe("分析请求", function () {
     beforeEach(async function () {
       await contract.authorizeResearcher(researcher.address);
+      
+      // 在请求分析之前先提交一些模拟数据
+      const ipfsCid = "QmTestCid123";
+      const loincCode = "2345-7";
+      const mockEncryptedInput = "0x1234567890abcdef";
+      const mockProof = "0x";
+      
+      await contract.connect(patient).submitPatientData(
+        mockEncryptedInput,
+        mockProof,
+        ipfsCid,
+        loincCode
+      );
     });
 
     it("授权研究员应该能请求分析", async function () {

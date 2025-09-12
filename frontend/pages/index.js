@@ -87,26 +87,8 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* 统计数据 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto"
-            >
-              <div className="stats-card text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">{stats.totalPatients}</div>
-                <div className="text-gray-600">参与患者</div>
-              </div>
-              <div className="stats-card text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">{stats.totalSubmissions}</div>
-                <div className="text-gray-600">数据提交</div>
-              </div>
-              <div className="stats-card text-center">
-                <div className="text-3xl font-bold text-purple-600 mb-2">{stats.totalAnalyses}</div>
-                <div className="text-gray-600">完成分析</div>
-              </div>
-            </motion.div>
+        
+       
 
             {/* 角色选择 */}
             <motion.div
@@ -125,12 +107,12 @@ export default function Home() {
                   <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-all duration-300">
                     <Heart className="w-10 h-10 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">患者端</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">健康数据管理</h3>
                   <p className="text-gray-600 mb-6">
-                    安全上传您的血糖数据，为医学研究贡献力量，同时保护个人隐私
+                    完成综合健康调查问卷，安全上传您的健康数据，为医学研究贡献力量
                   </p>
                   <div className="flex items-center justify-center text-blue-600 font-semibold group-hover:text-purple-600 transition-colors">
-                    开始上传数据 <ArrowRight className="ml-2 w-5 h-5" />
+                    开始健康调查 <ArrowRight className="ml-2 w-5 h-5" />
                   </div>
                 </div>
               </motion.div>

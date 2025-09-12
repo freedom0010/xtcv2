@@ -21,7 +21,7 @@ export default function Layout({ children }) {
 
   const navigation = [
     { name: '首页', href: '/', icon: Home },
-    { name: '患者端', href: '/patient', icon: Heart },
+    { name: '健康数据管理', href: '/patient', icon: Heart },
     { name: '研究员端', href: '/researcher', icon: BarChart3 },
   ]
 
