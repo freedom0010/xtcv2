@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { Heart, CheckCircle, AlertCircle, Upload } from 'lucide-react'
 import Layout from '../components/Layout'
 import DiabetesSurvey from '../components/DiabetesSurvey'
@@ -9,6 +11,7 @@ import { useToast } from '../contexts/ToastContext'
 import filebaseService from '../services/filebaseService'
 
 export default function SurveyPage() {
+  const { t } = useTranslation('common')
   const { account, connectWallet, isSepoliaNetwork } = useWallet()
   const { submitPatientData, loading, fhevmReady, ipfsReady } = useContract()
   const { showToast } = useToast()
@@ -21,16 +24,16 @@ export default function SurveyPage() {
     }
 
     if (!isSepoliaNetwork()) {
-      showToast('请切换到 Sepolia 测试网', 'error')
+      showToast(t('survey.messages.switchToSepolia'), 'error')
       return
     }
 
     setIsSubmitting(true)
     
     try {
-      showToast('正在提交调查问卷...', 'info')
+      showToast(t('survey.messages.submittingData'), 'info')
       
-      // 1. 首先上传到 IPFS
+      // 1. First upload to IPFS
       const ipfsResult = await filebaseService.submitPatientRecord(account, {
         ...surveyData,
         dataType: 'diabetes-survey',
@@ -38,14 +41,14 @@ export default function SurveyPage() {
       })
       
       if (!ipfsResult.success) {
-        throw new Error(`IPFS上传失败: ${ipfsResult.error}`)
+        throw new Error(`${t('survey.messages.ipfsUploadFailed')}: ${ipfsResult.error}`)
       }
       
-      showToast(`数据已上传到IPFS: ${ipfsResult.cid.substring(0, 10)}...`, 'success')
+      showToast(`${t('survey.messages.dataUploadedToIPFS')}: ${ipfsResult.cid.substring(0, 10)}...`, 'success')
       
-      // 2. 然后提交到区块链（包含IPFS CID）
+      // 2. Then submit to blockchain (including IPFS CID)
       const result = await submitPatientData(
-        surveyData.bloodSugar || 100, // 使用血糖值作为数值
+        surveyData.bloodSugar || 100, // Use blood sugar value as numeric value
         new Date().toISOString(),
         JSON.stringify({
           dataType: 'diabetes-survey',
@@ -57,11 +60,11 @@ export default function SurveyPage() {
       )
       
       if (result) {
-        showToast('调查问卷提交成功！数据已安全存储到IPFS和区块链', 'success')
+        showToast(t('survey.messages.surveySubmitSuccess'), 'success')
       }
     } catch (error) {
-      console.error('提交失败:', error)
-      showToast('提交失败，请重试', 'error')
+      console.error('Submission failed:', error)
+      showToast(t('survey.messages.submitFailed'), 'error')
     } finally {
       setIsSubmitting(false)
     }
@@ -79,15 +82,15 @@ export default function SurveyPage() {
             <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-8">
               <Heart className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-800 mb-6">健康问卷调查</h1>
-            <p className="text-xl text-gray-600 mb-8">请先连接钱包以开始填写健康问卷</p>
+            <h1 className="text-4xl font-bold text-gray-800 mb-6">{t('survey.connectWalletTitle')}</h1>
+            <p className="text-xl text-gray-600 mb-8">{t('survey.connectWalletSubtitle')}</p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={connectWallet}
               className="btn-primary"
             >
-              连接钱包
+              {t('survey.connectWallet')}
             </motion.button>
           </motion.div>
         </div>
@@ -107,8 +110,8 @@ export default function SurveyPage() {
           <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <Heart className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">糖尿病健康问卷</h1>
-          <p className="text-xl text-gray-600">帮助我们了解您的健康状况，为医学研究提供宝贵数据</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">{t('survey.diabetesTitle')}</h1>
+          <p className="text-xl text-gray-600">{t('survey.subtitle')}</p>
         </motion.div>
 
         {/* Status Indicators */}
@@ -118,7 +121,7 @@ export default function SurveyPage() {
           transition={{ delay: 0.2 }}
           className="bg-white rounded-lg shadow-lg p-6 mb-8"
         >
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">系统状态</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('survey.systemStatus')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex items-center space-x-3">
               {fhevmReady ? (
@@ -127,7 +130,7 @@ export default function SurveyPage() {
                 <AlertCircle className="w-5 h-5 text-yellow-500" />
               )}
               <span className="text-gray-700">
-                FHEVM 加密: {fhevmReady ? '已连接' : '模拟模式'}
+                {t('survey.fhevmEncryption')}: {fhevmReady ? t('survey.connected') : t('survey.simulationMode')}
               </span>
             </div>
             <div className="flex items-center space-x-3">
@@ -137,7 +140,7 @@ export default function SurveyPage() {
                 <AlertCircle className="w-5 h-5 text-yellow-500" />
               )}
               <span className="text-gray-700">
-                IPFS 存储: {ipfsReady ? '已连接' : '模拟模式'}
+                {t('survey.ipfsStorage')}: {ipfsReady ? t('survey.connected') : t('survey.simulationMode')}
               </span>
             </div>
           </div>
@@ -157,4 +160,12 @@ export default function SurveyPage() {
       </div>
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  }
 }
