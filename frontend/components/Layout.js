@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 import { 
   Activity, 
   Wallet, 
@@ -13,16 +14,18 @@ import {
   Shield
 } from 'lucide-react'
 import { useWallet } from '../contexts/WalletContext'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Layout({ children }) {
   const router = useRouter()
+  const { t } = useTranslation('common')
   const { account, connectWallet, disconnectWallet, formatAddress, isSepoliaNetwork } = useWallet()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navigation = [
-    { name: '首页', href: '/', icon: Home },
-    { name: '健康数据管理', href: '/patient', icon: Heart },
-    { name: '研究员端', href: '/researcher', icon: BarChart3 },
+    { name: t('navigation.home'), href: '/', icon: Home },
+    { name: t('navigation.patient'), href: '/patient', icon: Heart },
+    { name: t('navigation.researcher'), href: '/researcher', icon: BarChart3 },
   ]
 
   const handleNavigation = (href) => {
@@ -46,7 +49,7 @@ export default function Layout({ children }) {
                 <Activity className="w-6 h-6 text-white" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-gray-800">糖尿病分析平台</h1>
+                <h1 className="text-xl font-bold text-gray-800">{t('title')}</h1>
                 <p className="text-xs text-gray-500">FHEVM + IPFS</p>
               </div>
             </motion.div>
@@ -76,8 +79,11 @@ export default function Layout({ children }) {
               })}
             </nav>
 
-            {/* Wallet Connection */}
+            {/* Right side controls */}
             <div className="flex items-center space-x-4">
+              {/* Language Switcher */}
+              <LanguageSwitcher />
+
               {/* Network Status */}
               {account && (
                 <div className={`
@@ -88,7 +94,7 @@ export default function Layout({ children }) {
                   }
                 `}>
                   <div className={`w-2 h-2 rounded-full ${isSepoliaNetwork() ? 'bg-green-500' : 'bg-red-500'}`} />
-                  {isSepoliaNetwork() ? 'Sepolia' : '错误网络'}
+                  {isSepoliaNetwork() ? 'Sepolia' : t('wallet.switchNetwork')}
                 </div>
               )}
 
@@ -108,7 +114,7 @@ export default function Layout({ children }) {
                     whileTap={{ scale: 0.95 }}
                     onClick={disconnectWallet}
                     className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
-                    title="断开连接"
+                    title={t('buttons.disconnect')}
                   >
                     <LogOut className="w-4 h-4" />
                   </motion.button>
@@ -121,7 +127,7 @@ export default function Layout({ children }) {
                   className="btn-primary"
                 >
                   <Wallet className="w-4 h-4 mr-2" />
-                  连接钱包
+                  {t('buttons.connectWallet')}
                 </motion.button>
               )}
 
@@ -180,7 +186,7 @@ export default function Layout({ children }) {
                     }
                   `}>
                     <div className={`w-1.5 h-1.5 rounded-full ${isSepoliaNetwork() ? 'bg-green-500' : 'bg-red-500'}`} />
-                    {isSepoliaNetwork() ? 'Sepolia' : '错误网络'}
+                    {isSepoliaNetwork() ? 'Sepolia' : t('wallet.switchNetwork')}
                   </div>
                 </div>
               </div>
@@ -203,46 +209,45 @@ export default function Layout({ children }) {
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                   <Activity className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-800">糖尿病分析平台</h3>
+                <h3 className="text-lg font-bold text-gray-800">{t('title')}</h3>
               </div>
               <p className="text-gray-600 text-sm">
-                基于 FHEVM 同态加密技术的糖尿病患者匿名数据统计分析平台，
-                为医学研究提供隐私保护的数据分析服务。
+                {t('subtitle')}
               </p>
             </div>
             
             <div>
-              <h4 className="text-md font-semibold text-gray-800 mb-4">技术特性</h4>
+              <h4 className="text-md font-semibold text-gray-800 mb-4">{t('privacy.title')}</h4>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex items-center space-x-2">
                   <Shield className="w-4 h-4 text-blue-500" />
-                  <span>FHEVM 同态加密</span>
+                  <span>{t('privacy.features.encryption')}</span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <Shield className="w-4 h-4 text-green-500" />
-                  <span>IPFS 去中心化存储</span>
+                  <span>{t('privacy.features.decentralization')}</span>
                 </li>
                 <li className="flex items-center space-x-2">
                   <Shield className="w-4 h-4 text-purple-500" />
-                  <span>Sepolia 测试网</span>
+                  <span>{t('privacy.features.immutability')}</span>
                 </li>
               </ul>
             </div>
             
             <div>
-              <h4 className="text-md font-semibold text-gray-800 mb-4">使用指南</h4>
+              <h4 className="text-md font-semibold text-gray-800 mb-4">{t('navigation.home')}</h4>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li>• 患者可安全上传血糖数据</li>
-                <li>• 研究员可运行统计分析</li>
-                <li>• 所有数据完全加密保护</li>
-                <li>• 支持多种分析类型</li>
+                <li>• {t('patient.dataSubmission')}</li>
+                <li>• {t('researcher.requestAnalysis')}</li>
+                <li>• {t('privacy.description')}</li>
+                <li>• {t('analytics.title')}</li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-gray-200 mt-8 pt-6 text-center">
             <p className="text-sm text-gray-500">
-              © 2024 糖尿病匿名统计分析平台. 基于 Web3 技术构建，保护患者隐私.
+              {t('footer.copyright')}
             </p>
           </div>
         </div>

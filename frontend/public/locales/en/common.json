@@ -1,0 +1,185 @@
+{
+  "title": "Anonymous Diabetes Analytics DApp",
+  "subtitle": "Privacy-preserving diabetes data analysis platform",
+  "navigation": {
+    "home": "Home",
+    "patient": "Patient Portal",
+    "researcher": "Researcher Portal",
+    "survey": "Health Survey",
+    "ipfsDebug": "IPFS Debug"
+  },
+  "buttons": {
+    "connectWallet": "Connect Wallet",
+    "disconnect": "Disconnect",
+    "submit": "Submit",
+    "analyze": "Analyze",
+    "upload": "Upload",
+    "download": "Download",
+    "refresh": "Refresh",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close"
+  },
+  "wallet": {
+    "connected": "Connected",
+    "notConnected": "Not Connected",
+    "connecting": "Connecting...",
+    "address": "Address",
+    "balance": "Balance",
+    "network": "Network",
+    "switchNetwork": "Switch to Sepolia Network"
+  },
+  "patient": {
+    "title": "Patient Portal",
+    "subtitle": "Submit your health data securely",
+    "dataSubmission": "Data Submission",
+    "myData": "My Data",
+    "submissionHistory": "Submission History",
+    "dataEncrypted": "Your data is encrypted and stored securely",
+    "noData": "No data submitted yet",
+    "submitSuccess": "Data submitted successfully!",
+    "submitError": "Error submitting data"
+  },
+  "researcher": {
+    "title": "Researcher Portal",
+    "subtitle": "Analyze diabetes data with privacy protection",
+    "requestAnalysis": "Request Analysis",
+    "analysisResults": "Analysis Results",
+    "analysisHistory": "Analysis History",
+    "analysisTypes": {
+      "descriptive": "Descriptive Statistics",
+      "univariate": "Univariate Analysis",
+      "logistic": "Logistic Regression",
+      "linear": "Linear Regression",
+      "stratified": "Stratified Analysis",
+      "correlation": "Correlation Analysis"
+    },
+    "fee": "Analysis Fee",
+    "requestSuccess": "Analysis requested successfully!",
+    "requestError": "Error requesting analysis"
+  },
+  "survey": {
+    "title": "Diabetes Health Survey",
+    "subtitle": "Please fill out this questionnaire to contribute to diabetes research",
+    "sections": {
+      "basic": "Basic Information",
+      "medical": "Medical History",
+      "lifestyle": "Lifestyle",
+      "symptoms": "Current Symptoms"
+    },
+    "fields": {
+      "age": "Age",
+      "gender": "Gender",
+      "height": "Height (cm)",
+      "weight": "Weight (kg)",
+      "bloodGlucose": "Blood Glucose Level (mg/dL)",
+      "diabetesType": "Diabetes Type",
+      "diagnosisYear": "Year of Diagnosis",
+      "medication": "Current Medication",
+      "exercise": "Exercise Frequency",
+      "diet": "Diet Type",
+      "smoking": "Smoking Status",
+      "alcohol": "Alcohol Consumption"
+    },
+    "options": {
+      "male": "Male",
+      "female": "Female",
+      "type1": "Type 1",
+      "type2": "Type 2",
+      "gestational": "Gestational",
+      "prediabetes": "Pre-diabetes",
+      "never": "Never",
+      "rarely": "Rarely",
+      "sometimes": "Sometimes",
+      "often": "Often",
+      "always": "Always"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidAge": "Please enter a valid age",
+      "invalidHeight": "Please enter a valid height",
+      "invalidWeight": "Please enter a valid weight",
+      "invalidGlucose": "Please enter a valid blood glucose level"
+    }
+  },
+  "analytics": {
+    "title": "Data Analytics",
+    "loading": "Loading analysis...",
+    "noData": "No data available for analysis",
+    "charts": {
+      "bloodGlucoseDistribution": "Blood Glucose Distribution",
+      "ageDistribution": "Age Distribution",
+      "genderDistribution": "Gender Distribution",
+      "diabetesTypeDistribution": "Diabetes Type Distribution",
+      "correlationMatrix": "Correlation Matrix"
+    },
+    "statistics": {
+      "mean": "Mean",
+      "median": "Median",
+      "standardDeviation": "Standard Deviation",
+      "minimum": "Minimum",
+      "maximum": "Maximum",
+      "count": "Count",
+      "percentage": "Percentage"
+    }
+  },
+  "ipfs": {
+    "title": "IPFS Storage Status",
+    "status": "Status",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "uploading": "Uploading...",
+    "uploaded": "Uploaded",
+    "error": "Error",
+    "cid": "Content ID (CID)",
+    "size": "File Size",
+    "gateway": "Gateway URL",
+    "testUpload": "Test Upload",
+    "uploadSuccess": "File uploaded successfully!",
+    "uploadError": "Error uploading file"
+  },
+  "contract": {
+    "address": "Contract Address",
+    "network": "Network",
+    "status": "Status",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "totalPatients": "Total Patients",
+    "totalSubmissions": "Total Submissions",
+    "totalAnalyses": "Total Analyses"
+  },
+  "privacy": {
+    "title": "Privacy Protection",
+    "description": "Your data is protected using advanced encryption",
+    "features": {
+      "encryption": "Homomorphic Encryption",
+      "anonymization": "Data Anonymization",
+      "decentralization": "Decentralized Storage",
+      "immutability": "Blockchain Immutability"
+    }
+  },
+  "footer": {
+    "copyright": "© 2024 Diabetes Analytics DApp. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact Us"
+  },
+  "errors": {
+    "walletNotConnected": "Please connect your wallet first",
+    "networkError": "Network error occurred",
+    "contractError": "Smart contract error",
+    "ipfsError": "IPFS storage error",
+    "validationError": "Please check your input",
+    "unknownError": "An unknown error occurred"
+  },
+  "success": {
+    "dataSubmitted": "Data submitted successfully!",
+    "analysisRequested": "Analysis requested successfully!",
+    "fileUploaded": "File uploaded successfully!",
+    "settingsSaved": "Settings saved successfully!"
+  }
+}

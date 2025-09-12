@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react'
 import { WalletProvider } from '../contexts/WalletContext'
 import { ContractProvider } from '../contexts/ContractContext'
 import { ToastProvider } from '../contexts/ToastContext'
+import { appWithTranslation } from 'next-i18next'
 import Head from 'next/head'
 
-export default function App({ Component, pageProps }) {
+function App({ Component, pageProps }) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -19,11 +20,10 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>糖尿病匿名统计分析平台</title>
-        <meta name="description" content="基于 FHEVM 的糖尿病患者匿名数据统计分析平台" />
+        <title>Anonymous Diabetes Analytics DApp</title>
+        <meta name="description" content="Privacy-preserving diabetes data analysis platform based on FHEVM" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-
       </Head>
       
       <ToastProvider>
@@ -38,3 +38,5 @@ export default function App({ Component, pageProps }) {
     </>
   )
 }
+
+export default appWithTranslation(App)

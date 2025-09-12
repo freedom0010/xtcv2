@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { 
   Activity, 
   Shield, 
@@ -18,6 +20,7 @@ import { useWallet } from '../contexts/WalletContext'
 
 export default function Home() {
   const router = useRouter()
+  const { t } = useTranslation('common')
   const { account, connectWallet } = useWallet()
   const [stats, setStats] = useState({
     totalPatients: 0,
@@ -28,26 +31,26 @@ export default function Home() {
   const features = [
     {
       icon: Shield,
-      title: "完全隐私保护",
-      description: "使用 FHEVM 同态加密技术，确保患者数据在计算过程中始终保持加密状态",
+      title: t('privacy.features.encryption'),
+      description: t('privacy.description'),
       color: "from-blue-500 to-cyan-500"
     },
     {
       icon: BarChart3,
-      title: "智能统计分析",
-      description: "支持平均值计算、分布统计、趋势分析等多种统计方法",
+      title: t('analytics.title'),
+      description: "Support mean calculation, distribution statistics, trend analysis and other statistical methods",
       color: "from-purple-500 to-pink-500"
     },
     {
       icon: Database,
-      title: "去中心化存储",
-      description: "原始数据存储在 IPFS 网络，链上仅保存加密结果和访问凭证",
+      title: t('privacy.features.decentralization'),
+      description: "Original data stored on IPFS network, only encrypted results and access credentials on-chain",
       color: "from-green-500 to-teal-500"
     },
     {
       icon: Globe,
-      title: "全球可访问",
-      description: "部署在 Sepolia 测试网，全球研究机构都可以参与数据分析",
+      title: "Global Access",
+      description: "Deployed on Sepolia testnet, research institutions worldwide can participate in data analysis",
       color: "from-orange-500 to-red-500"
     }
   ]
@@ -77,20 +80,16 @@ export default function Home() {
               className="mb-8"
             >
               <h1 className="text-5xl md:text-7xl font-bold mb-6">
-                <span className="text-gradient">糖尿病</span>
+                <span className="text-gradient">{t('title').split(' ')[0]}</span>
                 <br />
-                <span className="text-gray-800">匿名统计分析平台</span>
+                <span className="text-gray-800">{t('title').split(' ').slice(1).join(' ')}</span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                基于 <span className="font-semibold text-blue-600">FHEVM</span> 同态加密技术，
-                为糖尿病患者提供完全隐私保护的数据统计分析服务
+                {t('subtitle')}
               </p>
             </motion.div>
 
-        
-       
-
-            {/* 角色选择 */}
+            {/* Role Selection */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -107,12 +106,12 @@ export default function Home() {
                   <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-all duration-300">
                     <Heart className="w-10 h-10 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">健康数据管理</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">{t('patient.title')}</h3>
                   <p className="text-gray-600 mb-6">
-                    完成综合健康调查问卷，安全上传您的健康数据，为医学研究贡献力量
+                    {t('patient.subtitle')}
                   </p>
                   <div className="flex items-center justify-center text-blue-600 font-semibold group-hover:text-purple-600 transition-colors">
-                    开始健康调查 <ArrowRight className="ml-2 w-5 h-5" />
+                    {t('survey.title')} <ArrowRight className="ml-2 w-5 h-5" />
                   </div>
                 </div>
               </motion.div>
@@ -127,12 +126,12 @@ export default function Home() {
                   <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-all duration-300">
                     <BarChart3 className="w-10 h-10 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">研究员端</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">{t('researcher.title')}</h3>
                   <p className="text-gray-600 mb-6">
-                    运行统计分析，获取聚合数据洞察，推动糖尿病医学研究进展
+                    {t('researcher.subtitle')}
                   </p>
                   <div className="flex items-center justify-center text-green-600 font-semibold group-hover:text-teal-600 transition-colors">
-                    开始数据分析 <ArrowRight className="ml-2 w-5 h-5" />
+                    {t('analytics.title')} <ArrowRight className="ml-2 w-5 h-5" />
                   </div>
                 </div>
               </motion.div>
@@ -151,10 +150,10 @@ export default function Home() {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-                核心技术特性
+                Core Technical Features
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                结合最新的区块链和密码学技术，为医疗数据分析提供前所未有的隐私保护
+                Combining the latest blockchain and cryptographic technologies to provide unprecedented privacy protection for medical data analysis
               </p>
             </motion.div>
 
@@ -191,19 +190,19 @@ export default function Home() {
               className="mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-                技术架构
+                Technology Architecture
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                采用业界领先的 Web3 技术栈，确保系统的安全性、可扩展性和去中心化特性
+                Using industry-leading Web3 technology stack to ensure system security, scalability and decentralization
               </p>
             </motion.div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { name: "FHEVM", desc: "同态加密虚拟机" },
-                { name: "IPFS", desc: "去中心化存储" },
-                { name: "Sepolia", desc: "以太坊测试网" },
-                { name: "Next.js", desc: "现代前端框架" }
+                { name: "FHEVM", desc: "Fully Homomorphic Encryption VM" },
+                { name: "IPFS", desc: "Decentralized Storage" },
+                { name: "Sepolia", desc: "Ethereum Testnet" },
+                { name: "Next.js", desc: "Modern Frontend Framework" }
               ].map((tech, index) => (
                 <motion.div
                   key={index}
@@ -231,10 +230,10 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                加入我们，推动医学研究进步
+                Join Us to Advance Medical Research
               </h2>
               <p className="text-xl mb-8 opacity-90">
-                无论您是患者还是研究员，都可以在保护隐私的前提下为糖尿病研究贡献力量
+                Whether you are a patient or researcher, you can contribute to diabetes research while protecting privacy
               </p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -242,7 +241,7 @@ export default function Home() {
                 onClick={() => !account ? connectWallet() : null}
                 className="bg-white text-blue-600 font-bold py-4 px-8 rounded-full text-lg hover:shadow-xl transition-all duration-300"
               >
-                {account ? '已连接钱包' : '连接钱包开始'}
+                {account ? t('wallet.connected') : t('buttons.connectWallet')}
               </motion.button>
             </motion.div>
           </div>
@@ -250,4 +249,12 @@ export default function Home() {
       </div>
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  }
 }

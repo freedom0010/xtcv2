@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { 
   Upload, 
   Heart, 
@@ -22,6 +24,7 @@ import { useContract } from '../contexts/ContractContext'
 import { useToast } from '../contexts/ToastContext'
 
 export default function PatientPage() {
+  const { t } = useTranslation('common')
   const { account, connectWallet, isSepoliaNetwork } = useWallet()
   const { submitPatientData, getPatientSubmissions, loading, fhevmReady, ipfsReady } = useContract()
   const { showToast } = useToast()
@@ -228,15 +231,15 @@ export default function PatientPage() {
             <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-8">
               <Heart className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-800 mb-6">健康数据管理</h1>
-            <p className="text-xl text-gray-600 mb-8">请先连接钱包以开始上传您的健康数据</p>
+            <h1 className="text-4xl font-bold text-gray-800 mb-6">{t('patient.title')}</h1>
+            <p className="text-xl text-gray-600 mb-8">{t('errors.walletNotConnected')}</p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={connectWallet}
               className="btn-primary"
             >
-              连接钱包
+              {t('buttons.connectWallet')}
             </motion.button>
           </motion.div>
         </div>
@@ -256,8 +259,8 @@ export default function PatientPage() {
           <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <Heart className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">健康数据管理</h1>
-          <p className="text-xl text-gray-600">安全上传您的健康数据，为医学研究贡献力量</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">{t('patient.title')}</h1>
+          <p className="text-xl text-gray-600">{t('patient.subtitle')}</p>
         </motion.div>
 
         {/* Tab Navigation */}
@@ -277,7 +280,7 @@ export default function PatientPage() {
               }`}
             >
               <User className="w-5 h-5" />
-              <span>健康调查问卷</span>
+              <span>{t('survey.title')}</span>
             </button>
             <button
               onClick={() => setActiveTab('glucose')}
@@ -288,7 +291,7 @@ export default function PatientPage() {
               }`}
             >
               <Activity className="w-5 h-5" />
-              <span>血糖数据上传</span>
+              <span>{t('patient.dataSubmission')}</span>
             </button>
             <button
               onClick={() => setActiveTab('history')}
@@ -299,7 +302,7 @@ export default function PatientPage() {
               }`}
             >
               <FileText className="w-5 h-5" />
-              <span>提交记录</span>
+              <span>{t('patient.submissionHistory')}</span>
             </button>
             <button
               onClick={() => setActiveTab('ipfs')}
@@ -310,7 +313,7 @@ export default function PatientPage() {
               }`}
             >
               <Database className="w-5 h-5" />
-              <span>IPFS记录</span>
+              <span>{t('ipfs.title')}</span>
             </button>
           </div>
         </motion.div>
@@ -627,4 +630,12 @@ export default function PatientPage() {
       </div>
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  }
 }

@@ -1,21 +1,21 @@
-# 🩺 糖尿病患者匿名统计分析 DApp
+# 🩺 Anonymous Diabetes Analytics DApp
 
-基于 FHEVM + IPFS + Sepolia 的隐私保护糖尿病数据分析平台
+Privacy-preserving diabetes data analysis platform based on FHEVM + IPFS + Sepolia
 
-## 📋 项目简介
+## 📋 Project Overview
 
-这是一个创新的去中心化应用（DApp），专为糖尿病患者数据的隐私保护和统计分析而设计。通过结合同态加密（FHEVM）、分布式存储（IPFS）和以太坊测试网（Sepolia），为医疗数据分析提供了一个安全、透明且不可篡改的解决方案。
+This is an innovative decentralized application (DApp) designed for privacy-protected diabetes patient data and statistical analysis. By combining Fully Homomorphic Encryption (FHEVM), distributed storage (IPFS), and Ethereum testnet (Sepolia), it provides a secure, transparent, and tamper-proof solution for medical data analysis.
 
-### 🎯 核心特性
+### 🎯 Core Features
 
-- **🔐 隐私保护**: 使用同态加密技术保护患者敏感数据
-- **📊 数据分析**: 提供多种统计分析方法（描述性统计、回归分析、相关性分析等）
-- **🌐 去中心化**: 基于区块链和 IPFS 的分布式架构
-- **📱 用户友好**: 现代化的 Web 界面，支持响应式设计
-- **🔒 数据完整性**: 通过区块链确保数据不可篡改
-- **📈 实时可视化**: 动态图表展示分析结果
+- **🔐 Privacy Protection**: Uses homomorphic encryption technology to protect sensitive patient data
+- **📊 Data Analytics**: Provides multiple statistical analysis methods (descriptive statistics, regression analysis, correlation analysis, etc.)
+- **🌐 Decentralization**: Distributed architecture based on blockchain and IPFS
+- **📱 User-Friendly**: Modern web interface with responsive design
+- **🔒 Data Integrity**: Ensures data immutability through blockchain
+- **📈 Real-time Visualization**: Dynamic charts displaying analysis results
 
-## 🏗️ 技术架构
+## 🏗️ Technical Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -30,199 +30,199 @@
                         └─────────────────┘
 ```
 
-### 技术栈
+### Technology Stack
 
-- **前端**: Next.js 14, React 18, Tailwind CSS, Framer Motion
-- **智能合约**: Solidity, FHEVM (同态加密)
-- **区块链**: Sepolia 测试网
-- **存储**: IPFS (Filebase)
-- **数据可视化**: Recharts
-- **开发工具**: Hardhat, ESLint, TypeScript
+- **Frontend**: Next.js 14, React 18, Tailwind CSS, Framer Motion
+- **Smart Contracts**: Solidity, FHEVM (Homomorphic Encryption)
+- **Blockchain**: Sepolia Testnet
+- **Storage**: IPFS (Filebase)
+- **Data Visualization**: Recharts
+- **Development Tools**: Hardhat, ESLint, TypeScript
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 环境要求
+### Prerequisites
 
 - Node.js >= 18.0.0
 - npm >= 8.0.0
 - Git
 
-### 1. 克隆项目
+### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd diabetes-fhe-dapp
+git clone https://github.com/freedom0010/xtcv2.git
+cd xtcv2
 ```
 
-### 2. 安装依赖
+### 2. Install Dependencies
 
 ```bash
-# 安装根目录依赖
+# Install root dependencies
 npm install
 
-# 安装前端依赖
+# Install frontend dependencies
 cd frontend
 npm install
 cd ..
 ```
 
-### 3. 环境配置
+### 3. Environment Configuration
 
-创建环境变量文件：
+Create environment variable files:
 
 ```bash
-# 根目录 .env
+# Root directory .env
 cp .env.example .env
 
-# 前端目录 .env.local
+# Frontend directory .env.local
 cd frontend
 cp .env.local.example .env.local
 ```
 
-配置必要的环境变量：
+Configure necessary environment variables:
 
-**根目录 `.env`:**
+**Root directory `.env`:**
 ```env
 PRIVATE_KEY=your_wallet_private_key
 SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/your_infura_key
 ETHERSCAN_API_KEY=your_etherscan_api_key
 ```
 
-**前端 `frontend/.env.local`:**
+**Frontend `frontend/.env.local`:**
 ```env
 NEXT_PUBLIC_CONTRACT_ADDRESS=deployed_contract_address
 NEXT_PUBLIC_SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/your_infura_key
 NEXT_PUBLIC_FILEBASE_GATEWAY=https://ipfs.filebase.io/ipfs/
 
-# Filebase IPFS 配置 (可选)
+# Filebase IPFS Configuration (Optional)
 FILEBASE_ACCESS_KEY=your_filebase_access_key
 FILEBASE_SECRET_KEY=your_filebase_secret_key
 ```
 
-### 4. 部署智能合约
+### 4. Deploy Smart Contracts
 
 ```bash
-# 编译合约
+# Compile contracts
 npm run compile
 
-# 部署到 Sepolia 测试网
+# Deploy to Sepolia testnet
 npm run deploy
 ```
 
-### 5. 启动前端应用
+### 5. Start Frontend Application
 
 ```bash
-# 启动开发服务器
+# Start development server
 npm run dev
 
-# 或者直接在前端目录启动
+# Or start directly in frontend directory
 cd frontend
 npm run dev
 ```
 
-访问 http://localhost:3000 查看应用。
+Visit http://localhost:3000 to view the application.
 
-## 📖 使用指南
+## 📖 User Guide
 
-### 患者数据提交
+### Patient Data Submission
 
-1. **连接钱包**: 点击"连接钱包"按钮连接 MetaMask
-2. **填写问卷**: 完成糖尿病相关健康问卷
-3. **数据加密**: 系统自动使用同态加密保护您的数据
-4. **上链存储**: 加密数据存储到 IPFS 并记录到区块链
+1. **Connect Wallet**: Click "Connect Wallet" button to connect MetaMask
+2. **Fill Survey**: Complete diabetes-related health questionnaire
+3. **Data Encryption**: System automatically uses homomorphic encryption to protect your data
+4. **On-chain Storage**: Encrypted data stored to IPFS and recorded on blockchain
 
-### 数据分析查看
+### Data Analysis Viewing
 
-1. **选择分析类型**: 
-   - 描述性统计分析
-   - 单因素分析
-   - Logistic 回归分析
-   - 线性回归分析
-   - 分层分析
-   - 相关性分析
+1. **Select Analysis Type**: 
+   - Descriptive Statistical Analysis
+   - Univariate Analysis
+   - Logistic Regression Analysis
+   - Linear Regression Analysis
+   - Stratified Analysis
+   - Correlation Analysis
 
-2. **查看结果**: 
-   - 交互式图表展示
-   - 统计指标说明
-   - 分析洞察建议
+2. **View Results**: 
+   - Interactive chart displays
+   - Statistical indicator explanations
+   - Analysis insight recommendations
 
-### 管理员功能
+### Administrator Functions
 
-1. **数据概览**: 查看总体数据统计
-2. **IPFS 调试**: 检查存储状态
-3. **合约交互**: 管理智能合约
+1. **Data Overview**: View overall data statistics
+2. **IPFS Debugging**: Check storage status
+3. **Contract Interaction**: Manage smart contracts
 
-## 🔧 开发指南
+## 🔧 Development Guide
 
-### 项目结构
+### Project Structure
 
 ```
-diabetes-fhe-dapp/
-├── contracts/                 # 智能合约
+xtcv2/
+├── contracts/                 # Smart contracts
 │   └── DiabetesAnalytics.sol
-├── frontend/                  # 前端应用
-│   ├── components/           # React 组件
-│   ├── pages/               # Next.js 页面
-│   ├── services/            # 服务层
+├── frontend/                  # Frontend application
+│   ├── components/           # React components
+│   ├── pages/               # Next.js pages
+│   ├── services/            # Service layer
 │   ├── contexts/            # React Context
-│   └── config/              # 配置文件
-├── scripts/                  # 部署脚本
-├── artifacts/               # 编译产物
+│   └── config/              # Configuration files
+├── scripts/                  # Deployment scripts
+├── artifacts/               # Compilation artifacts
 └── README.md
 ```
 
-### 主要组件
+### Main Components
 
-- **AnalyticsChart.js**: 数据可视化组件
-- **DiabetesSurvey.js**: 患者问卷组件
-- **Layout.js**: 应用布局组件
-- **ipfsService.js**: IPFS 存储服务
-- **contractService.js**: 智能合约交互服务
+- **AnalyticsChart.js**: Data visualization component
+- **DiabetesSurvey.js**: Patient questionnaire component
+- **Layout.js**: Application layout component
+- **ipfsService.js**: IPFS storage service
+- **contractService.js**: Smart contract interaction service
 
-### 开发命令
+### Development Commands
 
 ```bash
-# 编译智能合约
+# Compile smart contracts
 npm run compile
 
-# 运行测试
+# Run tests
 npm run test
 
-# 部署合约
+# Deploy contracts
 npm run deploy
 
-# 启动前端开发服务器
+# Start frontend development server
 npm run dev
 
-# 构建前端生产版本
+# Build frontend production version
 npm run build
 
-# 代码检查
+# Code linting
 cd frontend && npm run lint
 ```
 
-## 🔒 隐私与安全
+## 🔒 Privacy & Security
 
-### 数据保护机制
+### Data Protection Mechanisms
 
-1. **同态加密**: 使用 FHEVM 对敏感数据进行加密
-2. **匿名化**: 患者身份信息完全匿名
-3. **去中心化存储**: IPFS 分布式存储防止单点故障
-4. **不可篡改**: 区块链确保数据完整性
+1. **Homomorphic Encryption**: Uses FHEVM to encrypt sensitive data
+2. **Anonymization**: Patient identity information is completely anonymous
+3. **Decentralized Storage**: IPFS distributed storage prevents single point of failure
+4. **Immutability**: Blockchain ensures data integrity
 
-### 安全最佳实践
+### Security Best Practices
 
-- 私钥安全存储，不要泄露给他人
-- 定期备份钱包和重要数据
-- 仅在测试网络使用测试代币
-- 验证合约地址的正确性
+- Store private keys securely, do not share with others
+- Regularly backup wallets and important data
+- Only use test tokens on test networks
+- Verify contract address correctness
 
-## 🌐 网络配置
+## 🌐 Network Configuration
 
-### Sepolia 测试网配置
+### Sepolia Testnet Configuration
 
 ```javascript
-// MetaMask 网络配置
+// MetaMask network configuration
 Network Name: Sepolia Test Network
 RPC URL: https://sepolia.infura.io/v3/YOUR_INFURA_KEY
 Chain ID: 11155111
@@ -230,97 +230,97 @@ Currency Symbol: ETH
 Block Explorer: https://sepolia.etherscan.io
 ```
 
-### 获取测试代币
+### Get Test Tokens
 
 - [Sepolia Faucet](https://sepoliafaucet.com/)
 - [Alchemy Faucet](https://sepoliafaucet.com/)
 
-## 📊 数据分析功能
+## 📊 Data Analysis Features
 
-### 支持的分析类型
+### Supported Analysis Types
 
-1. **描述性统计**: 均值、标准差、分布情况
-2. **单因素分析**: 血糖水平分布分析
-3. **回归分析**: 影响因素识别和预测
-4. **相关性分析**: 变量间关系分析
-5. **分层分析**: 按人群特征分组分析
+1. **Descriptive Statistics**: Mean, standard deviation, distribution
+2. **Univariate Analysis**: Blood glucose level distribution analysis
+3. **Regression Analysis**: Influencing factor identification and prediction
+4. **Correlation Analysis**: Inter-variable relationship analysis
+5. **Stratified Analysis**: Group analysis by population characteristics
 
-### 可视化图表
+### Visualization Charts
 
-- 柱状图 (Bar Chart)
-- 饼图 (Pie Chart)
-- 折线图 (Line Chart)
-- 面积图 (Area Chart)
-- 散点图 (Scatter Plot)
+- Bar Chart
+- Pie Chart
+- Line Chart
+- Area Chart
+- Scatter Plot
 
-## 🤝 贡献指南
+## 🤝 Contributing
 
-我们欢迎社区贡献！请遵循以下步骤：
+We welcome community contributions! Please follow these steps:
 
-1. Fork 项目
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建 Pull Request
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Create a Pull Request
 
-### 代码规范
+### Code Standards
 
-- 使用 ESLint 进行代码检查
-- 遵循 React/Next.js 最佳实践
-- 编写清晰的注释和文档
-- 确保测试通过
+- Use ESLint for code checking
+- Follow React/Next.js best practices
+- Write clear comments and documentation
+- Ensure tests pass
 
-## 🐛 故障排除
+## 🐛 Troubleshooting
 
-### 常见问题
+### Common Issues
 
-**Q: 前端启动时出现 "Cannot find module 'next/babel'" 错误**
+**Q: Frontend startup error "Cannot find module 'next/babel'"**
 ```bash
-# 解决方案：清理缓存并重新安装依赖
+# Solution: Clear cache and reinstall dependencies
 cd frontend
 npm cache clean --force
 rm -rf node_modules package-lock.json
 npm install
 ```
 
-**Q: 智能合约部署失败**
+**Q: Smart contract deployment failure**
 ```bash
-# 检查网络配置和私钥设置
-# 确保有足够的测试 ETH
-# 验证 RPC URL 是否正确
+# Check network configuration and private key settings
+# Ensure sufficient test ETH
+# Verify RPC URL correctness
 ```
 
-**Q: IPFS 上传失败**
+**Q: IPFS upload failure**
 ```bash
-# 检查 Filebase 配置
-# 验证 API 密钥是否正确
-# 确保网络连接正常
+# Check Filebase configuration
+# Verify API key correctness
+# Ensure network connection is normal
 ```
 
-### 获取帮助
+### Getting Help
 
-- 查看 [Issues](../../issues) 页面
-- 阅读项目文档
-- 联系开发团队
+- Check [Issues](../../issues) page
+- Read project documentation
+- Contact development team
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 致谢
+## 🙏 Acknowledgments
 
-- [FHEVM](https://github.com/zama-ai/fhevm) - 同态加密虚拟机
-- [IPFS](https://ipfs.io/) - 分布式存储网络
-- [Next.js](https://nextjs.org/) - React 框架
-- [Hardhat](https://hardhat.org/) - 以太坊开发环境
-- [Recharts](https://recharts.org/) - 数据可视化库
+- [FHEVM](https://github.com/zama-ai/fhevm) - Fully Homomorphic Encryption Virtual Machine
+- [IPFS](https://ipfs.io/) - Distributed Storage Network
+- [Next.js](https://nextjs.org/) - React Framework
+- [Hardhat](https://hardhat.org/) - Ethereum Development Environment
+- [Recharts](https://recharts.org/) - Data Visualization Library
 
-## 📞 联系我们
+## 📞 Contact Us
 
-- 项目主页: [GitHub Repository](../../)
-- 问题反馈: [Issues](../../issues)
-- 邮箱: developer@example.com
+- Project Homepage: [GitHub Repository](https://github.com/freedom0010/xtcv2)
+- Issue Reports: [Issues](https://github.com/freedom0010/xtcv2/issues)
+- Email: developer@example.com
 
 ---
 
-**⚠️ 免责声明**: 本项目仅用于教育和研究目的。在生产环境中使用前，请进行充分的安全审计和测试。医疗数据处理需要遵循相关法律法规。
+**⚠️ Disclaimer**: This project is for educational and research purposes only. Please conduct thorough security audits and testing before using in production environments. Medical data processing must comply with relevant laws and regulations.

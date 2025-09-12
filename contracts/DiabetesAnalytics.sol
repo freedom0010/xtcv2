@@ -3,35 +3,35 @@ pragma solidity ^0.8.24;
 
 /**
  * @title DiabetesAnalytics
- * @dev 糖尿病患者匿名统计分析合约 - 简化版本
- * 支持加密血糖数据上传和聚合分析（使用模拟加密）
+ * @dev Anonymous diabetes patient statistical analysis contract - Simplified version
+ * Supports encrypted blood glucose data upload and aggregated analysis (using simulated encryption)
  */
 contract DiabetesAnalytics {
-    // 事件定义
+    // Event definitions
     event DataSubmitted(address indexed patient, string ipfsCid, uint256 timestamp);
     event AnalysisRequested(address indexed researcher, uint256 requestId);
     event AnalysisCompleted(uint256 indexed requestId, string resultCid);
 
-    // 数据结构
+    // Data structures
     struct PatientData {
-        bytes encryptedBloodGlucose;  // 加密的血糖值数据
-        bytes encryptionProof;        // 加密证明
-        uint256 timestamp;            // 时间戳
-        string ipfsCid;               // IPFS 存储的原始数据 CID
-        string loincCode;             // LOINC 代码 (2345-7 for glucose)
-        bool isActive;                // 数据是否有效
+        bytes encryptedBloodGlucose;  // Encrypted blood glucose data
+        bytes encryptionProof;        // Encryption proof
+        uint256 timestamp;            // Timestamp
+        string ipfsCid;               // IPFS CID for original data storage
+        string loincCode;             // LOINC code (2345-7 for glucose)
+        bool isActive;                // Whether the data is valid
     }
 
     struct AnalysisRequest {
-        address researcher;      // 研究员地址
-        uint256 timestamp;       // 请求时间
-        bool completed;          // 是否完成
-        string resultCid;        // 结果 IPFS CID
-        uint256 fee;             // 分析费用
-        uint8 analysisType;      // 分析类型
+        address researcher;      // Researcher address
+        uint256 timestamp;       // Request timestamp
+        bool completed;          // Whether completed
+        string resultCid;        // Result IPFS CID
+        uint256 fee;             // Analysis fee
+        uint8 analysisType;      // Analysis type
     }
 
-    // 状态变量
+    // State variables
     mapping(address => PatientData[]) public patientSubmissions;
     mapping(uint256 => AnalysisRequest) public analysisRequests;
     mapping(address => bool) public authorizedResearchers;
@@ -39,11 +39,11 @@ contract DiabetesAnalytics {
     address[] public allPatients;
     uint256 public nextRequestId;
     uint256 public totalSubmissions;
-    uint256 public analysisFeeBasis = 0.001 ether; // 基础分析费用
+    uint256 public analysisFeeBasis = 0.001 ether; // Base analysis fee
 
     address public owner;
 
-    // 修饰符
+    // Modifiers
     modifier onlyOwner() {
         require(msg.sender == owner, "Only owner can call this function");
         _;
@@ -58,16 +58,16 @@ contract DiabetesAnalytics {
         owner = msg.sender;
         nextRequestId = 1;
 
-        // 初始化一些授权研究员（示例）
+        // Initialize some authorized researchers (example)
         authorizedResearchers[msg.sender] = true;
     }
 
     /**
-     * @dev 患者提交加密血糖数据
-     * @param encryptedGlucose 加密的血糖值数据
-     * @param inputProof 加密证明
-     * @param ipfsCid IPFS 存储的原始数据 CID
-     * @param loincCode LOINC 代码
+     * @dev Patient submits encrypted blood glucose data
+     * @param encryptedGlucose Encrypted blood glucose data
+     * @param inputProof Encryption proof
+     * @param ipfsCid IPFS CID for original data storage
+     * @param loincCode LOINC code
      */
     function submitPatientData(
         bytes calldata encryptedGlucose,
@@ -78,7 +78,7 @@ contract DiabetesAnalytics {
         require(bytes(ipfsCid).length > 0, "IPFS CID cannot be empty");
         require(encryptedGlucose.length > 0, "Encrypted data cannot be empty");
 
-        // 存储患者数据
+        // Store patient data
         PatientData memory newData = PatientData({
             encryptedBloodGlucose: encryptedGlucose,
             encryptionProof: inputProof,
@@ -90,7 +90,7 @@ contract DiabetesAnalytics {
 
         patientSubmissions[msg.sender].push(newData);
 
-        // 如果是新患者，添加到患者列表
+        // If new patient, add to patient list
         if (patientSubmissions[msg.sender].length == 1) {
             allPatients.push(msg.sender);
         }
@@ -101,8 +101,8 @@ contract DiabetesAnalytics {
     }
 
     /**
-     * @dev 研究员请求聚合分析
-     * @param analysisType 分析类型 (0: 描述性统计, 1: 单因素分析, 2: Logistic回归, 3: 线性回归, 4: 分层分析, 5: 相关性分析)
+     * @dev Researcher requests aggregated analysis
+     * @param analysisType Analysis type (0: Descriptive statistics, 1: Univariate analysis, 2: Logistic regression, 3: Linear regression, 4: Stratified analysis, 5: Correlation analysis)
      */
     function requestAnalysis(uint8 analysisType) external payable onlyAuthorizedResearcher {
         require(msg.value >= analysisFeeBasis, "Insufficient fee for analysis");
@@ -122,12 +122,12 @@ contract DiabetesAnalytics {
 
         emit AnalysisRequested(msg.sender, requestId);
 
-        // 模拟分析完成（在实际应用中，这会由预言机或后台服务完成）
+        // Simulate analysis completion (in real applications, this would be done by oracles or backend services)
         _completeAnalysis(requestId, analysisType);
     }
 
     /**
-     * @dev 完成分析（模拟）
+     * @dev Complete analysis (simulation)
      */
     function _completeAnalysis(uint256 requestId, uint8 analysisType) private {
         string memory resultCid;
@@ -152,7 +152,7 @@ contract DiabetesAnalytics {
         emit AnalysisCompleted(requestId, resultCid);
     }
 
-    // ------------ Getter 函数 ------------
+    // ------------ Getter Functions ------------
 
     function getPatientSubmissionCount(address patient) external view returns (uint256) {
         return patientSubmissions[patient].length;
@@ -231,7 +231,7 @@ contract DiabetesAnalytics {
         return analysisFeeBasis;
     }
 
-    // ------------ 管理函数 ------------
+    // ------------ Management Functions ------------
 
     function authorizeResearcher(address researcher) external onlyOwner {
         authorizedResearchers[researcher] = true;
@@ -254,7 +254,7 @@ contract DiabetesAnalytics {
         patientSubmissions[patient][index].isActive = false;
     }
 
-    // 手动完成分析（管理员功能）
+    // Manually complete analysis (admin function)
     function completeAnalysis(uint256 requestId, string calldata resultCid) external onlyOwner {
         require(requestId < nextRequestId, "Invalid request ID");
         require(!analysisRequests[requestId].completed, "Analysis already completed");
@@ -265,7 +265,7 @@ contract DiabetesAnalytics {
         emit AnalysisCompleted(requestId, resultCid);
     }
 
-    // 获取最近的分析请求
+    // Get recent analysis requests
     function getRecentAnalysisRequests(uint256 limit) external view returns (uint256[] memory) {
         uint256 totalRequests = nextRequestId - 1;
         uint256 returnCount = limit > totalRequests ? totalRequests : limit;
@@ -278,7 +278,7 @@ contract DiabetesAnalytics {
         return recentRequests;
     }
 
-    // 获取患者最新数据
+    // Get patient's latest data
     function getLatestPatientData(address patient) external view returns (
         bytes memory encryptedBloodGlucose,
         uint256 timestamp,
@@ -294,6 +294,6 @@ contract DiabetesAnalytics {
         );
     }
 
-    // 接收 ETH 转账
+    // Receive ETH transfers
     receive() external payable {}
 }
