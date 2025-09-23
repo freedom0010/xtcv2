@@ -1,0 +1,57 @@
+{
+  "services": {
+    "frontend": {
+      "rootDir": "frontend",
+      "build": {
+        "builder": "NIXPACKS",
+        "nixpacksPlan": {
+          "phases": {
+            "install": {
+              "cmds": [
+                "npm install"
+              ]
+            },
+            "build": {
+              "cmds": [
+                "npm run build"
+              ]
+            },
+            "start": {
+              "cmds": [
+                "npm run start"
+              ]
+            }
+          }
+        }
+      },
+      "deploy": {
+        "numReplicas": 1,
+        "restartPolicyType": "ON_FAILURE"
+      }
+    },
+    "backend": {
+      "rootDir": ".",
+      "build": {
+        "builder": "NIXPACKS",
+        "nixpacksPlan": {
+          "phases": {
+            "install": {
+              "cmds": [
+                "npm install"
+              ]
+            },
+            "start": {
+              "cmds": [
+                "npm run start"
+              ]
+            }
+          }
+        }
+      },
+      "deploy": {
+        "numReplicas": 1,
+        "restartPolicyType": "ON_FAILURE"
+      }
+    }
+  }
+}

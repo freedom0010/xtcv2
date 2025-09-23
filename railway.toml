@@ -1,37 +1,30 @@
 # xtcv2/railway.toml
-# Railway 配置文件，支持前端 (Next.js) 和可选后端 (Node.js API)
+# Railway 多服务配置文件
+# 支持前端 (Next.js DApp) 和可选后端 (Node.js API)
 
 # ========================
-# Frontend Service (Next.js DApp)
+# Frontend Service (Next.js)
 # ========================
-[frontend]
-[frontend.build]
-command = "cd frontend && npm install && npm run build"
+[[services]]
+name = "frontend"
+root = "frontend"              # 前端代码目录
+start = "npm run start"        # 启动命令 (要确保 package.json 里用 $PORT)
+build = "npm install && npm run build"
+env = { NODE_ENV = "production" }
 
-[frontend.deploy]
-command = "cd frontend && npm start"
-
-[frontend.env]
-NODE_ENV = "production"
-PORT = "3000"
-
-# ⚡ 区块链 & 合约配置（在 Railway Dashboard -> Variables 设置实际值）
-NEXT_PUBLIC_RPC_URL = "https://sepolia.infura.io/v3/<your-infura-key>"
-NEXT_PUBLIC_CONTRACT_ADDRESS = "<deployed-contract-address>"
+# ⚡ 区块链 & 合约配置（需要在 Railway Dashboard → Variables 设置实际值）
+# 这些值不要写死在代码里，写在 Variables 里更安全
+# 下面写的是占位，实际要在 Railway 上配置：
+# NEXT_PUBLIC_RPC_URL=https://sepolia.infura.io/v3/<your-infura-key>
+# NEXT_PUBLIC_CONTRACT_ADDRESS=<deployed-contract-address>
 
 
 # ========================
-# Backend Service (可选, Node.js API)
+# Backend Service (Node.js API, 可选)
 # ========================
-# 如果你未来加一个 backend/ 目录，可以在 Railway 新建一个 Service 使用这个 profile
-[backend]
-[backend.build]
-command = "cd backend && npm install"
-
-[backend.deploy]
-command = "cd backend && npm start"
-
-[backend.env]
-NODE_ENV = "production"
-PORT = "8080"
-
+[[services]]
+name = "backend"
+root = "backend"               # 后端代码目录
+start = "npm run start"        # 监听 process.env.PORT
+build = "npm install"
+env = { NODE_ENV = "production" }
