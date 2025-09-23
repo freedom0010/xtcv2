@@ -6,7 +6,10 @@
   "scripts": {
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js --network sepolia",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "cd frontend && npm start"
   },
   "keywords": [
     "blockchain",
@@ -18,11 +21,14 @@
   "author": "Web3 Developer",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.28.4",
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "hardhat": "^2.19.0"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
-    "ethers": "^6.8.0"
+    "eslint-config-next": "^15.5.3",
+    "ethers": "^6.8.0",
+    "next": "^15.5.3"
   }
 }
