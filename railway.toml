@@ -1,0 +1,15 @@
+# xtcv2/railway.toml
+# Railway 配置文件，只部署前端 (Next.js DApp)
+
+[[services]]
+name = "frontend"
+root = "frontend"                         
+start = "cd frontend && npm start"        
+build = "cd frontend && npm install && npm run build"
+env = { NODE_ENV = "production" }
+
+# ========================
+# 环境变量配置 (需要在 Railway Dashboard → Variables 设置)
+# ========================
+# NEXT_PUBLIC_RPC_URL=https://sepolia.infura.io/v3/<your-infura-key>
+# NEXT_PUBLIC_CONTRACT_ADDRESS=<your-deployed-contract-address>
